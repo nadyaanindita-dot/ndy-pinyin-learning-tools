@@ -1,0 +1,6 @@
+{
+  "name": "PinyinMaster: Media Pembelajaran Pinyin Interaktif",
+  "description": "Media pembelajaran interaktif sistem fonetik Pinyin bahasa Mandarin (Shengmu, Yunmu, Shengdiao), tabel panduan pelafalan, aturan fonetik, sandhi nada 3+3, nada netral, dan latihan membaca kata dasar.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
