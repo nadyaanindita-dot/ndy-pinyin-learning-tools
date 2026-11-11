@@ -144,7 +144,23 @@ export async function playChineseSpeech(input: string, customRate?: number): Pro
     await audio.play();
     return true;
   } catch (err) {
-    console.warn('Backend TTS playback failed, attempting SpeechSynthesis fallback...', err);
+    console.warn('Backend TTS playback failed, attempting direct online fallback...', err);
+  }
+
+  // --- TIER 1.5: Direct Online Google TTS (leveraging no-referrer meta policy) ---
+  try {
+    const directUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=zh-CN&client=tw-ob&q=${encodeURIComponent(targetText)}`;
+    let directAudio = audioCache.get(directUrl);
+    if (!directAudio) {
+      directAudio = new Audio(directUrl);
+      audioCache.set(directUrl, directAudio);
+    }
+    directAudio.playbackRate = rate;
+    currentPlayingAudio = directAudio;
+    await directAudio.play();
+    return true;
+  } catch (directErr) {
+    console.warn('Direct online TTS failed, attempting Web Speech API fallback...', directErr);
   }
 
   // --- TIER 2: Browser Web Speech API Fallback ---
